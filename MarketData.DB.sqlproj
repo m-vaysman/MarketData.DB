@@ -23,6 +23,7 @@
     <IncludeCompositeObjects>True</IncludeCompositeObjects>
     <TargetDatabaseSet>True</TargetDatabaseSet>
     <TargetFrameworkProfile />
+    <IncludeSchemaNameInFileName>True</IncludeSchemaNameInFileName>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <OutputPath>bin\Release\</OutputPath>
@@ -57,10 +58,10 @@
   <Import Condition="'$(SQLDBExtensionsRefPath)' == ''" Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets" />
   <ItemGroup>
     <Folder Include="Properties" />
-    <Folder Include="nyfed" />
+    <Folder Include="Tables" />
   </ItemGroup>
   <ItemGroup>
-    <Build Include="nyfed\SecLendingOperations.sql" />
+    <Build Include="Tables\nyfed.SecLendingOperations.sql" />
     <Build Include="nyfedSchema.sql" />
   </ItemGroup>
   <ItemGroup>
