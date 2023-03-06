@@ -63,6 +63,8 @@
   <ItemGroup>
     <Build Include="Tables\nyfed.SecLendingOperations.sql" />
     <Build Include="nyfedSchema.sql" />
+    <Build Include="Tables\pgon.DailySnapshotPrices.sql" />
+    <Build Include="pgonSchema.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="MarketData.DB.refactorlog" />

@@ -7,4 +7,11 @@
     <Property Name="ParentElementType" Value="SqlTable" />
     <Property Name="NewName" Value="SecLendingOperationsId" />
   </Operation>
+  <Operation Name="Rename Refactor" Key="5304114c-f126-4e4f-be96-7b3472b66867" ChangeDateTime="03/06/2023 03:58:02">
+    <Property Name="ElementName" Value="[pgon].[DailySnapshotPrices].[Id]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[pgon].[DailySnapshotPrices]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="DailySnapshotPricesId" />
+  </Operation>
 </Operations>
