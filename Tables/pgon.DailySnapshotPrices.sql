@@ -27,3 +27,7 @@ CREATE INDEX [IX_DailySnapshotPrices_Column] ON [pgon].[DailySnapshotPrices] ([T
 GO
 
 CREATE INDEX [IX_DailySnapshotPrices_Date] ON [pgon].[DailySnapshotPrices] ([Date])
+
+GO
+
+CREATE INDEX [IX_DailySnapshotPrices_Ticker_OpenCloseChange] ON [pgon].[DailySnapshotPrices] ([Ticker]) INCLUDE ([Date], [OpenCloseChange])
