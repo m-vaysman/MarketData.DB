@@ -66,6 +66,8 @@
     <Build Include="Tables\pgon.DailySnapshotPrices.sql" />
     <Build Include="pgonSchema.sql" />
     <Build Include="dbo.ColumnStoreIndex1.sql" />
+    <Build Include="Tables\curve.TreasuryYieldCurve.sql" />
+    <Build Include="curveSchema.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="MarketData.DB.refactorlog" />

@@ -14,4 +14,11 @@
     <Property Name="ParentElementType" Value="SqlTable" />
     <Property Name="NewName" Value="DailySnapshotPricesId" />
   </Operation>
+  <Operation Name="Rename Refactor" Key="61fc736f-1a83-4421-ac06-de6f2e37252a" ChangeDateTime="03/25/2023 02:30:43">
+    <Property Name="ElementName" Value="[curve].[TreasuryYieldCurve].[Id]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[curve].[TreasuryYieldCurve]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="TreasuryYieldCurveId" />
+  </Operation>
 </Operations>
