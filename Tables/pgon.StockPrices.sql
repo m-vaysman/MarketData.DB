@@ -1,0 +1,1 @@
+﻿CREATE TABLE pgon.StockPrices (ev NVARCHAR(10), sym NVARCHAR(10), i NVARCHAR(100), x INT, p FLOAT, s INT, c NVARCHAR(MAX), t INT, q INT, z INT);
