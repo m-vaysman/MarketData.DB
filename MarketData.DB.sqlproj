@@ -59,6 +59,8 @@
   <ItemGroup>
     <Folder Include="Properties" />
     <Folder Include="Tables" />
+    <Folder Include="Views" />
+    <Folder Include="StoredProcedures" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="Tables\nyfed.SecLendingOperations.sql" />
@@ -69,6 +71,15 @@
     <Build Include="Tables\curve.TreasuryYieldCurve.sql" />
     <Build Include="curveSchema.sql" />
     <Build Include="Tables\pgon.StockPrices.sql" />
+    <Build Include="Views\pgon.Tickers.sql" />
+    <Build Include="Tables\dbo.DateTable.sql" />
+    <Build Include="StoredProcedures\dbo.LoadDateTable.sql" />
+    <Build Include="StoredProcedures\dbo.BackupDb.sql" />
+    <Build Include="secSchema.sql" />
+    <Build Include="Tables\sec.13FInfoTable.sql" />
+    <Build Include="Tables\sec.SubmissionTable13F.sql" />
+    <Build Include="Tables\sec.CoverPage13F.sql" />
+    <Build Include="Tables\sec.CikTable.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="MarketData.DB.refactorlog" />

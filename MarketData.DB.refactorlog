@@ -21,4 +21,11 @@
     <Property Name="ParentElementType" Value="SqlTable" />
     <Property Name="NewName" Value="TreasuryYieldCurveId" />
   </Operation>
+  <Operation Name="Rename Refactor" Key="6fe1d373-f3df-4a35-ac12-924bc13637c8" ChangeDateTime="05/24/2023 05:22:18">
+    <Property Name="ElementName" Value="[sec].[CikTable].[IX_CikTable_Column]" />
+    <Property Name="ElementType" Value="SqlIndex" />
+    <Property Name="ParentElementName" Value="[sec].[CikTable]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="[IX_CikTable_Ticker]" />
+  </Operation>
 </Operations>
