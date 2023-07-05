@@ -80,6 +80,12 @@
     <Build Include="Tables\sec.SubmissionTable13F.sql" />
     <Build Include="Tables\sec.CoverPage13F.sql" />
     <Build Include="Tables\sec.CikTable.sql" />
+    <Build Include="redfinSchema.sql" />
+    <Build Include="Tables\redfin.SitemapUris.sql" />
+    <Build Include="Views\pgon.TickersAvgForLifetime.sql" />
+    <Build Include="Views\pgon.TickerTradingDaysInYear.sql" />
+    <Build Include="Views\pgon.TickerDailyReturns.sql" />
+    <Build Include="Views\pgon.TickerVolatility.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="MarketData.DB.refactorlog" />
