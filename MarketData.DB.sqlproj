@@ -86,6 +86,7 @@
     <Build Include="Views\pgon.TickerTradingDaysInYear.sql" />
     <Build Include="Views\pgon.TickerDailyReturns.sql" />
     <Build Include="Views\pgon.TickerVolatility.sql" />
+    <Build Include="Views\pgon.TickerAvgDailyVolume.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="MarketData.DB.refactorlog" />

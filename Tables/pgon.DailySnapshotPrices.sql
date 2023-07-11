@@ -31,3 +31,5 @@ CREATE INDEX [IX_DailySnapshotPrices_Date] ON [pgon].[DailySnapshotPrices] ([Dat
 GO
 
 CREATE INDEX [IX_DailySnapshotPrices_Ticker_OpenCloseChange] ON [pgon].[DailySnapshotPrices] ([Ticker]) INCLUDE ([Date], [OpenCloseChange])
+
+GO
