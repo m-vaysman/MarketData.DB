@@ -61,6 +61,7 @@
     <Folder Include="Tables" />
     <Folder Include="Views" />
     <Folder Include="StoredProcedures" />
+    <Folder Include="Functions" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="Tables\nyfed.SecLendingOperations.sql" />
@@ -87,6 +88,10 @@
     <Build Include="Views\pgon.TickerDailyReturns.sql" />
     <Build Include="Views\pgon.TickerVolatility.sql" />
     <Build Include="Views\pgon.TickerAvgDailyVolume.sql" />
+    <Build Include="Functions\pgon.GetLastDailyClose.sql" />
+    <Build Include="Tables\pgon.DailyTimeSeriesPrices.sql" />
+    <Build Include="StoredProcedures\pgon.GetLatestSnapshot.sql" />
+    <Build Include="StoredProcedures\pgon.GetAvgPricesByHour.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="MarketData.DB.refactorlog" />
