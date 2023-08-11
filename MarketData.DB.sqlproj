@@ -92,6 +92,8 @@
     <Build Include="Tables\pgon.DailyTimeSeriesPrices.sql" />
     <Build Include="StoredProcedures\pgon.GetLatestSnapshot.sql" />
     <Build Include="StoredProcedures\pgon.GetAvgPricesByHour.sql" />
+    <Build Include="Tables\pgon.DailyTimeSeriesVolumes.sql" />
+    <Build Include="StoredProcedures\pgon.GetStockPrice.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="MarketData.DB.refactorlog" />
