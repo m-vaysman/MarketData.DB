@@ -1,0 +1,46 @@
+﻿CREATE TABLE [dbo].[EtfDailyHoldings]
+(
+    EtfDailyHoldingsId INT not null primary key identity(1,1),
+    FundHoldingsAsOfDate Date Not Null,
+    FundTicker NVARCHAR(10) NOT NULL,
+    [Name] NVARCHAR(100),
+    Sector NVARCHAR(100),
+    AssetClass NVARCHAR(100),
+    MarketValue DECIMAL(28,4),
+    [Weight] DECIMAL(28,4),
+    NotionalValue DECIMAL(28,4),
+    ParValue DECIMAL(28,4),
+    CUSIP NVARCHAR(100),
+    ISIN NVARCHAR(100),
+    SEDOL NVARCHAR(100),
+    [Location] NVARCHAR(100),
+    Exchange NVARCHAR(100),
+    Currency NVARCHAR(100),
+    Duration DECIMAL(28,4),
+    YTM DECIMAL(28,4),
+    FXRate DECIMAL(28,4),
+    Maturity DATE,
+    Coupon DECIMAL(28,4),
+    ModDuration DECIMAL(28,4),
+    YieldtoCall DECIMAL(28,4),
+    YieldtoWorst DECIMAL(28,4),
+    RealDuration DECIMAL(28,4),
+    RealYTM DECIMAL(28,4),
+    MarketCurrency NVARCHAR(100),
+    AccrualDate DATE,
+    EffectiveDate DATE,
+    Ticker NVARCHAR(100),
+    Shares DECIMAL(28,4),
+    Price DECIMAL(28,4),
+    [Type] NVARCHAR(100),
+    TimeStamp DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP, 
+    CONSTRAINT [FK_EtfDailyHoldings_EtfSecurityReference] FOREIGN KEY ([FundTicker]) REFERENCES [EtfSecurityReference]([FundTicker])
+      
+
+
+)
+
+go
+CREATE COLUMNSTORE INDEX CSX_EtfDailyHoldings_FundTicker
+ON dbo.EtfDailyHoldings (FundTicker)
+GO

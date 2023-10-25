@@ -16,7 +16,7 @@
     <ModelCollation>1033, CI</ModelCollation>
     <DefaultFileStructure>BySchemaAndSchemaType</DefaultFileStructure>
     <DeployToDatabase>True</DeployToDatabase>
-    <TargetFrameworkVersion>v4.8.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <TargetLanguage>CS</TargetLanguage>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <SqlServerVerification>False</SqlServerVerification>
@@ -24,6 +24,7 @@
     <TargetDatabaseSet>True</TargetDatabaseSet>
     <TargetFrameworkProfile />
     <IncludeSchemaNameInFileName>True</IncludeSchemaNameInFileName>
+    <Recovery>SIMPLE</Recovery>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <OutputPath>bin\Release\</OutputPath>
@@ -42,7 +43,7 @@
     <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
+    <Optimize>true</Optimize>
     <DefineDebug>true</DefineDebug>
     <DefineTrace>true</DefineTrace>
     <ErrorReport>prompt</ErrorReport>
@@ -68,7 +69,6 @@
     <Build Include="nyfedSchema.sql" />
     <Build Include="Tables\pgon.DailySnapshotPrices.sql" />
     <Build Include="pgonSchema.sql" />
-    <Build Include="dbo.ColumnStoreIndex1.sql" />
     <Build Include="Tables\curve.TreasuryYieldCurve.sql" />
     <Build Include="curveSchema.sql" />
     <Build Include="Tables\pgon.StockPrices.sql" />
@@ -94,11 +94,32 @@
     <Build Include="StoredProcedures\pgon.GetAvgPricesByHour.sql" />
     <Build Include="Tables\pgon.DailyTimeSeriesVolumes.sql" />
     <Build Include="StoredProcedures\pgon.GetStockPrice.sql" />
+    <Build Include="ptfSchema.sql" />
+    <Build Include="Tables\ptf.SecurityCorrelation.sql" />
+    <Build Include="Functions\pft.CalcCorrelation.sql" />
+    <Build Include="StoredProcedures\ptf.InsertCorrelation.sql" />
+    <Build Include="Views\dbo.ViewAvailableLogSpace.sql" />
+    <Build Include="Tables\dbo.TickerReference.sql" />
+    <Build Include="Views\dbo.SecuritiesAbove1BMarketCap.sql" />
+    <Build Include="StoredProcedures\pgon.DeleteNonCapitalizedTickersFromDailySnapshotPrices.sql" />
+    <Build Include="Views\dbo.SecLinks.sql" />
+    <Build Include="Tables\dbo.EtfReference.sql" />
+    <Build Include="Tables\dbo.EtfHoldingsMap.sql" />
+    <Build Include="Tables\dbo.EtfHoldings.sql" />
+    <Build Include="Tables\staging.EtfDailyHoldings.sql" />
+    <Build Include="Tables\dbo.EtfSecurityReference.sql" />
+    <Build Include="Tables\dbo.EtfDailyHoldings.sql" />
+    <Build Include="StoredProcedures\dbo.MergeEtfDailyHoldings.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="MarketData.DB.refactorlog" />
   </ItemGroup>
   <ItemGroup>
     <None Include="MarketData.DB.publish.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
   </ItemGroup>
 </Project>

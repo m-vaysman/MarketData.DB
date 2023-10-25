@@ -33,3 +33,18 @@ GO
 CREATE INDEX [IX_DailySnapshotPrices_Ticker_OpenCloseChange] ON [pgon].[DailySnapshotPrices] ([Ticker]) INCLUDE ([Date], [OpenCloseChange])
 
 GO
+
+CREATE NONCLUSTERED INDEX [IX_DailySnapshotPrices_Ticker_DateClose]
+ON [pgon].[DailySnapshotPrices] ([Ticker])
+INCLUDE ([Date],[Close])
+
+GO
+
+
+CREATE NONCLUSTERED INDEX [IX_DailySnapshotPrices_Ticker_DateCloseLowMax]
+ON [pgon].[DailySnapshotPrices] ([Date])
+INCLUDE ([Ticker],[Close],[Low],[High])
+go
+CREATE NONCLUSTERED INDEX [IX_DailySnapshotPrices_TickerDate_DateCloseLowMax]
+ON [pgon].[DailySnapshotPrices] ([Ticker])
+INCLUDE ([Date] ,[Close],[Low],[High])
