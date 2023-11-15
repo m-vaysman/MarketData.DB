@@ -1,29 +1,30 @@
-﻿CREATE TABLE [pgon].[DailySnapshotPrices]
-(
-	[DailySnapshotPricesId] INT NOT NULL PRIMARY KEY identity(1,1), 
-    [Ticker] VARCHAR(50)NOT NULL, 
-    [Date] DATE NOT NULL, 
-    [Volume] FLOAT NULL, 
-    [VolumeWeighted] FLOAT NULL, 
-    [Open] FLOAT NULL, 
-    [Close] FLOAT NULL, 
-    [High] FLOAT NULL, 
-    [Low] FLOAT NULL, 
-    [Time] BIGINT NULL, 
-    [Transactions] INT NULL, 
-    [TransactionsDollars] FLOAT NULL, 
-    [OpenCloseChange] FLOAT NULL, 
-    [OpenCloseChangeRank] INT NULL, 
-    [TransactionsRank] INT NULL, 
-    [TransactionsDollarsRank] INT NULL, 
-    [UpdatedOn] DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    
-)
+﻿CREATE TABLE [pgon].[DailySnapshotPrices] (
+    [DailySnapshotPricesId]   INT          IDENTITY (1, 1) NOT NULL,
+    [Ticker]                  VARCHAR (50) NOT NULL,
+    [Date]                    DATE         NOT NULL,
+    [Volume]                  FLOAT (53)   NULL,
+    [VolumeWeighted]          FLOAT (53)   NULL,
+    [Open]                    FLOAT (53)   NULL,
+    [Close]                   FLOAT (53)   NULL,
+    [High]                    FLOAT (53)   NULL,
+    [Low]                     FLOAT (53)   NULL,
+    [Time]                    BIGINT       NULL,
+    [Transactions]            INT          NULL,
+    [TransactionsDollars]     FLOAT (53)   NULL,
+    [OpenCloseChange]         FLOAT (53)   NULL,
+    [OpenCloseChangeRank]     INT          NULL,
+    [TransactionsRank]        INT          NULL,
+    [TransactionsDollarsRank] INT          NULL,
+    [UpdatedOn]               DATETIME     DEFAULT (getdate()) NOT NULL,
+    PRIMARY KEY CLUSTERED ([DailySnapshotPricesId] ASC)
+);
+
+
 
 GO
 
 CREATE INDEX [IX_DailySnapshotPrices_Column] ON [pgon].[DailySnapshotPrices] ([Ticker],[Date])
-
+INCLUDE ([High], [Close]) with (DATA_COMPRESSION = PAGE)
 GO
 
 CREATE INDEX [IX_DailySnapshotPrices_Date] ON [pgon].[DailySnapshotPrices] ([Date])
@@ -42,8 +43,10 @@ GO
 
 
 CREATE NONCLUSTERED INDEX [IX_DailySnapshotPrices_Ticker_DateCloseLowMax]
-ON [pgon].[DailySnapshotPrices] ([Date])
-INCLUDE ([Ticker],[Close],[Low],[High])
+    ON [pgon].[DailySnapshotPrices]([Date] ASC)
+    INCLUDE([Ticker],[Volume], [VolumeWeighted], [Close], [Low], [High]);
+
+
 go
 CREATE NONCLUSTERED INDEX [IX_DailySnapshotPrices_TickerDate_DateCloseLowMax]
 ON [pgon].[DailySnapshotPrices] ([Ticker])

@@ -1,1 +1,4 @@
 ﻿CREATE SCHEMA [pgon]
+    AUTHORIZATION [dbo];
+
+

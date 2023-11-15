@@ -63,6 +63,8 @@
     <Folder Include="Views" />
     <Folder Include="StoredProcedures" />
     <Folder Include="Functions" />
+    <Folder Include="ptf\" />
+    <Folder Include="ptf\Stored Procedures\" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="Tables\nyfed.SecLendingOperations.sql" />
@@ -94,10 +96,8 @@
     <Build Include="StoredProcedures\pgon.GetAvgPricesByHour.sql" />
     <Build Include="Tables\pgon.DailyTimeSeriesVolumes.sql" />
     <Build Include="StoredProcedures\pgon.GetStockPrice.sql" />
-    <Build Include="ptfSchema.sql" />
     <Build Include="Tables\ptf.SecurityCorrelation.sql" />
     <Build Include="Functions\pft.CalcCorrelation.sql" />
-    <Build Include="StoredProcedures\ptf.InsertCorrelation.sql" />
     <Build Include="Views\dbo.ViewAvailableLogSpace.sql" />
     <Build Include="Tables\dbo.TickerReference.sql" />
     <Build Include="Views\dbo.SecuritiesAbove1BMarketCap.sql" />
@@ -110,6 +110,12 @@
     <Build Include="Tables\dbo.EtfSecurityReference.sql" />
     <Build Include="Tables\dbo.EtfDailyHoldings.sql" />
     <Build Include="StoredProcedures\dbo.MergeEtfDailyHoldings.sql" />
+    <Build Include="ptfSchema.sql" />
+    <Build Include="ptf\Stored Procedures\ptf.InsertCorrelation.sql" />
+    <Build Include="Functions\dbo.GetPriceHighLow.sql" />
+    <Build Include="StoredProcedures\dbo.test.sql" />
+    <Build Include="Functions\dbo.GetPriceLow.sql" />
+    <Build Include="Functions\dbo.GetTickerVolumeByPrice.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="MarketData.DB.refactorlog" />
