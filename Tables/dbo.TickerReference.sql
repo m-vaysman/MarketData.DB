@@ -29,3 +29,9 @@
 GO
 
 CREATE INDEX [IX_TickerReference_RunDate] ON [dbo].[TickerReference] ([RunDate])
+
+GO 
+
+CREATE NONCLUSTERED INDEX [IX_TickerReference_ListDate_ShareClassFigi]
+ON [dbo].[TickerReference] ([ListDate],[ShareClassFigi])
+INCLUDE ([Ticker],[ShareClassSharesOutstanding])

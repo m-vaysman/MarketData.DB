@@ -25,6 +25,10 @@
     <TargetFrameworkProfile />
     <IncludeSchemaNameInFileName>True</IncludeSchemaNameInFileName>
     <Recovery>SIMPLE</Recovery>
+    <PermissionSet>SAFE</PermissionSet>
+    <SignAssembly>False</SignAssembly>
+    <AssemblyOwner>
+    </AssemblyOwner>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <OutputPath>bin\Release\</OutputPath>
@@ -48,6 +52,7 @@
     <DefineTrace>true</DefineTrace>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <PlatformTarget>AnyCPU</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">11.0</VisualStudioVersion>
@@ -65,6 +70,7 @@
     <Folder Include="Functions" />
     <Folder Include="ptf\" />
     <Folder Include="ptf\Stored Procedures\" />
+    <Folder Include="CLRFunctions" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="Tables\nyfed.SecLendingOperations.sql" />
@@ -116,6 +122,36 @@
     <Build Include="StoredProcedures\dbo.test.sql" />
     <Build Include="Functions\dbo.GetPriceLow.sql" />
     <Build Include="Functions\dbo.GetTickerVolumeByPrice.sql" />
+    <Build Include="Functions\dbo.GetCochransSampleSize.sql" />
+    <Build Include="Functions\dbo.GetRandomTickerDailyReturns.sql" />
+    <Build Include="Views\dbo.TickerReturnsByMonthAndDate.sql" />
+    <Build Include="Tables\pgon.ExchangeQuotes.sql" />
+    <Build Include="Tables\staging.ExchangesQuotes.sql" />
+    <Build Include="Tables\staging.sql" />
+    <Build Include="ExchangesQuotesFileGroup.sql" />
+    <Build Include="StagingExchangesQuotesFIle1.sql" />
+    <Build Include="StagingExchangesQuotesFile2.sql" />
+    <Build Include="PF_StagingExchangesQuotes.sql" />
+    <Build Include="PS__StagingExchangesQuotes.sql" />
+    <Build Include="ExchangesQuotesFileGroup2.sql" />
+    <Build Include="Functions\dbo.ConvertMillisecondsToDate.sql" />
+    <Build Include="Functions\dbo.ConvertMillisecondsToDateTime.sql" />
+    <Build Include="ExchangeQuoteFileGroup1.sql" />
+    <Build Include="ExchangeQuoteFileGroup2.sql" />
+    <Build Include="ExchangeQuoteFileGroup3.sql" />
+    <Build Include="ExchangeQuoteFile1.sql" />
+    <Build Include="ExchangeQuoteFile2.sql" />
+    <Build Include="ExchangeQuoteFile3.sql" />
+    <Build Include="PF_ExchangeQuote.sql" />
+    <Build Include="PS_ExchangeQuote.sql" />
+    <Build Include="StoredProcedures\dbo.MoveExchangeQuotes.sql" />
+    <Build Include="Functions\dbo.GetPrice.sql" />
+    <Build Include="Functions\dbo.GetRandomTickerDailyReturnsWithRow.sql" />
+    <Build Include="Tables\dbo.TickerPairs.sql" />
+    <Build Include="Functions\dbo.TickersRandomCorrelation.sql" />
+    <Build Include="DailyPriceSnapshotFileGroup.sql" />
+    <Build Include="DailyPriceSnapshotMemOptFile.sql" />
+    <Build Include="Tables\pgon.DailySnapShotPricesMemOpt.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="MarketData.DB.refactorlog" />
@@ -127,5 +163,8 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="CLRFunctions\Correlation.cs" />
   </ItemGroup>
 </Project>

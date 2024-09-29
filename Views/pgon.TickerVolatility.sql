@@ -18,7 +18,7 @@
   	SELECT dp.Ticker, dp.[Date], dp.[Close],dp.Low,dp.High,dp.[Open],
 	  LOG(dp.High / dp.Low) as MaxDailyReturn,
 	  LOG(dp.Low / dp.High) as MinDailyReturn,
-      LOG(dp.[Close] / LAG(dp.[Close]) OVER (partition by ticker ORDER BY dp.Date)) AS DailyReturn
+      LOG(dp.[Close] / dp.[Open]) AS DailyReturn
 FROM pgon.DailySnapshotPrices as dp
 ) as dpa
 
