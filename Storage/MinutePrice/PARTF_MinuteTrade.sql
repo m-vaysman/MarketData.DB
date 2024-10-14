@@ -1,0 +1,6 @@
+﻿CREATE PARTITION FUNCTION [PARTF_MinuteTrade]
+	(
+		nvarchar(10)
+	)
+	AS RANGE LEFT
+	FOR VALUES ('GOOG','PFE')
