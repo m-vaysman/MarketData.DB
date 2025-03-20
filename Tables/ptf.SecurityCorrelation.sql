@@ -1,22 +1,29 @@
 ﻿CREATE TABLE [ptf].[SecurityCorrelation]
 (
-	[SecurityCorrelationId] bigINT NOT NULL PRIMARY KEY identity(1,1),
-	[Ticker_A] varchar(10) NOT NULL,
-	[Ticker_B] varchar(10) NOT NULL,
+	[Ticker_A] nvarchar(10) NOT NULL,
+	[Ticker_B] nvarchar(10) NOT NULL,
 	[Date] date NOT NULL,
-	[Correlation] decimal(18, 8) NOT NULL,
+	[Correlation] decimal(18,8) NOT NULL,
 	[Offset] INT NOT NULL
+--CONSTRAINT [UC_TickerABDate] PRIMARY KEY (Ticker_A, Ticker_B, [Date], [Offset]) with (data_compression=page)
 )
-
-GO
-
---CREATE COLUMNSTORE INDEX [CStoreIX_SecurityCorrelation] ON [ptf].[SecurityCorrelation] ([Ticker_A],[Ticker_B],[Date],[Offset],[Correlation])
+on  [SecurityCorrelations] WITH (DATA_COMPRESSION = page);
+go
 
 
 
-CREATE INDEX [IX_SecurityCorrelation_TickerB_Date] ON [ptf].[SecurityCorrelation] ([Ticker_B],[Date]) include ([Ticker_A],[Correlation],[Offset])  WITH (DATA_COMPRESSION = PAGE);
 
-GO
 
-CREATE INDEX [IX_SecurityCorrelation_TickerA_Date] ON [ptf].[SecurityCorrelation] ([Ticker_A],[Date]) include ([Ticker_B],[Correlation],[Offset]) WITH (DATA_COMPRESSION = PAGE);
 
+CREATE NONclustered COLUMNSTORE INDEX [CStoreIX_SecurityCorrelation] ON [ptf].[SecurityCorrelation](Ticker_A, Ticker_B, [Date], [Offset])
+
+go 
+
+create nonclustered index [IX_tickera_tickerb_date] on ptf.securitycorrelation (ticker_a,ticker_b,[date]) include (correlation, offset) with (data_compression=page)
+
+go 
+
+create nonclustered index [ix_tickera_tickerb_date_offset] on ptf.securitycorrelation (ticker_a,ticker_b,[date],offset) include (correlation) with (data_compression=page)
+
+go 
+create nonclustered index [ix_tickera_offset] on ptf.securitycorrelation (ticker_a,offset) include (ticker_b,[date],correlation) with (data_compression=page)

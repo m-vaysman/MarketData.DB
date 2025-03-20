@@ -1,5 +1,5 @@
 ﻿CREATE TABLE [pgon].[DailySnapshotPrices] (
-    [DailySnapshotPricesId]   INT          IDENTITY (1, 1) NOT NULL,
+    [DailySnapshotPricesId]   INT    PRIMARY KEY NONCLUSTERED   IDENTITY (1, 1) NOT NULL,
     [Ticker]                  VARCHAR (50) NOT NULL,
     [Date]                    DATE         NOT NULL,
     [Volume]                  FLOAT (53)   NULL,
@@ -15,10 +15,11 @@
     [OpenCloseChangeRank]     INT          NULL,
     [TransactionsRank]        INT          NULL,
     [TransactionsDollarsRank] INT          NULL,
-    [UpdatedOn]               DATETIME     DEFAULT (getdate()) NOT NULL,
-    PRIMARY KEY CLUSTERED ([DailySnapshotPricesId] ASC)
+    [UpdatedOn]               DATETIME     DEFAULT (getdate()) NOT NULL
+ 
 );
-
+go
+CREATE CLUSTERED COLUMNSTORE INDEX [CStoreIX_DailySnapshotPrices] ON [pgon].[DailySnapshotPrices]  with (MAXDOP =0, DATA_COMPRESSION=COLUMNSTORE)
 
 
 GO
@@ -51,3 +52,7 @@ go
 CREATE NONCLUSTERED INDEX [IX_DailySnapshotPrices_TickerDate_DateCloseLowMax]
 ON [pgon].[DailySnapshotPrices] ([Ticker])
 INCLUDE ([Date] ,[Close],[Low],[High])
+
+GO
+
+

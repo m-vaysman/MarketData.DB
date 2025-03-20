@@ -17,7 +17,7 @@ BEGIN
                     WHEN @priceType = 'high' THEN a.[High]
                     ELSE a.[Low]
                  END
-    FROM pgon.DailySnapshotPrices AS a 
+    FROM pgon.DailySnapShotPricesMemOpt AS a 
     WHERE a.Ticker = @ticker 
     AND a.Date = @date;
 

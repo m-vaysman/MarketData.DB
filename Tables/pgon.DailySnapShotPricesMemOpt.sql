@@ -18,20 +18,24 @@ CREATE TABLE [pgon].[DailySnapShotPricesMemOpt]
     [Close]                   FLOAT (53)   NULL,
     [High]                    FLOAT (53)   NULL,
     [Low]                     FLOAT (53)   NULL, 
-    PRIMARY KEY NONCLUSTERED HASH (Ticker,[Date]) WITH (BUCKET_COUNT = 40000000),
+    [Return]                  FLOAT (53) NULL,
+    [Drawdown]                FLOAT (53) NULL,
+    [Rise]                    FLOAT (53) NULL
+    PRIMARY KEY NONCLUSTERED HASH (Ticker,[Date]) WITH (BUCKET_COUNT = 40000000), 
+    INDEX [IX_DailySnapShotPricesMemOptNonClustered_Ticker] NONCLUSTERED  ([Ticker]),
+    INDEX [IX_DailySnapShotPricesMemOpt_TickerDate] NONCLUSTERED  ([Ticker],[Date]),
     INDEX [IX_DailySnapShotPricesMemOpt_Date] NONCLUSTERED HASH ([Date]) WITH (BUCKET_COUNT = 7000),
-    INDEX [IX_DailySnapShotPricesMemOpt_Ticker] NONCLUSTERED HASH ([Ticker]) WITH (BUCKET_COUNT = 40000),
- 
+    INDEX [IX_DailySnapShotPricesMemOpt_Ticker] NONCLUSTERED HASH ([Ticker]) WITH (BUCKET_COUNT = 40000)
+   
    
 ) WITH (MEMORY_OPTIMIZED = ON)
 go
 
 
-GO
+--GO
+--CREATE NONCLUSTERED  INDEX [IX_DailySnapshotPricesMemOpt_Date_OpenCloseHighLow] ON [pgon].[DailySnapShotPricesMemOpt] ([Date]) INCLUDE (Ticker,[Open],[High],[Close],[Low],[Volume])
+--GO
+--CREATE NONCLUSTERED  INDEX [IX_DailySnapshotPricesMemOpt_TickerDate_OpenCloseHighLow] ON [pgon].[DailySnapShotPricesMemOpt] (Ticker,[Date]) INCLUDE ([Open],[High],[Close],[Low],[Volume])
+--go
 
-CREATE NONCLUSTERED  INDEX [IX_DailySnapshotPricesMemOpt_Ticker_OpenCloseHighLow] ON [pgon].[DailySnapshotPrices] ([Ticker]) INCLUDE ([Date],[Open],[High],[Close],[Low],[Volume])
 
-GO
-CREATE NONCLUSTERED  INDEX [IX_DailySnapshotPricesMemOpt_Date_OpenCloseHighLow] ON [pgon].[DailySnapshotPrices] ([Date]) INCLUDE (Ticker,[Open],[High],[Close],[Low],[Volume])
-GO
-CREATE NONCLUSTERED  INDEX [IX_DailySnapshotPricesMemOpt_TickerDate_OpenCloseHighLow] ON [pgon].[DailySnapshotPrices] (Ticker,[Date]) INCLUDE ([Open],[High],[Close],[Low],[Volume])

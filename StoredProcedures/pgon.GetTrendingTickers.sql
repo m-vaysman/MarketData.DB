@@ -48,6 +48,12 @@ SELECT
     ,tt1.Name
     ,tt1.SicDescription
     ,tt1.[Index]
+    ,eps.Value EPS
+    ,fpe.Value FPE
+    ,qr.Value QuickRatio
+    ,tp.TargetPrice TargetPrice
+    ,dvs.MarketCap
+    ,dvs.PercentAboveAvg
 FROM
 (
     SELECT Ticker FROM #TempTable1
@@ -55,11 +61,14 @@ FROM
     SELECT Ticker FROM #TempTable2
 ) t
 LEFT JOIN #TempTable1 AS tt1 ON tt1.Ticker = t.Ticker
-LEFT JOIN #TempTable2 AS tt2 ON tt2.Ticker = t.Ticker;
+LEFT JOIN #TempTable2 AS tt2 ON tt2.Ticker = t.Ticker
+LEFT JOIN dbo.EPS as eps on eps.Ticker=t.Ticker
+LEFT JOIN dbo.ForwardPE as fpe on fpe.Ticker=t.Ticker
+LEFT JOIN dbo.QuickRatio as qr on qr.Ticker=t.Ticker
+LEFT JOIN dbo.TargetPrice as tp on tp.Ticker=t.Ticker
+LEFT JOIN dbo.DailyVolumeSpikes as dvs on tp.Ticker=dvs.Ticker and dvs.Date=tp.Date
 
-
-
-END
+end
 
 
 

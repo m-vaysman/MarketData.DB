@@ -23,12 +23,12 @@ select a.Ptf,a.Ticker,a.Weight,a.WeightPercent from ptf.PortfolioWeights(@ptf) a
 ) c
 
 
+select d.*,tmpw.InitialSharesPurchased, (tmpw.InitialSharesPurchased*d.InitialPrice) InvestedAmount from (
 select b.Ticker
      , b.TradeDate
      , b.Ptf
      , b.Weight
      , pw.WeightPercent
-     ,tmpw.InitialSharesPurchased
      , c.[Open] as InitialPrice
      , a.Date
      , a.[Open]
@@ -47,9 +47,9 @@ from pgon.DailySnapShotPricesMemOpt A
   left join ptf.PortfolioWeights(@ptf) pw
     on pw.Ptf = b.Ptf
       and pw.Ticker = b.Ticker
-  left join #tempWeights as tmpw on tmpw.Ptf = b.ptf and tmpw.ticker=b.ticker and tmpw.tradedate=b.tradetrade
 where b.Ptf = @ptf
       and b.ticker = a.ticker
-      and a.Date >= b.TradeDate
-order by a.Date
+      and a.Date >= b.TradeDate) d
+       left join #tempWeights as tmpw on tmpw.Ptf = d.Ptf and tmpw.Ticker=d.Ticker and tmpw.TradeDate=d.TradeDate
+order by d.Date
 

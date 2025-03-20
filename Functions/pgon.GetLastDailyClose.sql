@@ -6,7 +6,7 @@ RETURNS FLOAT
 AS
 BEGIN
 declare @price float
-	select top 1 @price= [close] from pgon.DailySnapshotPrices where Ticker=@ticker 
+	select top 1 @price= [close] from pgon.DailySnapShotPricesMemOpt where Ticker=@ticker 
 	order by Date desc
 	RETURN @price
 END

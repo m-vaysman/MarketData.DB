@@ -28,4 +28,25 @@
     <Property Name="ParentElementType" Value="SqlTable" />
     <Property Name="NewName" Value="[IX_CikTable_Ticker]" />
   </Operation>
+  <Operation Name="Rename Refactor" Key="4b10d4bb-275a-42f8-93f6-2bd441b9cc0e" ChangeDateTime="10/06/2024 17:43:28">
+    <Property Name="ElementName" Value="[pgon].[MinutePrice].[Transactions]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[pgon].[MinutePrice]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="Window_Start" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="9002caa7-46dd-410c-bab1-50aa9b0d7ff8" ChangeDateTime="10/28/2024 17:31:59">
+    <Property Name="ElementName" Value="[dbo].[FactorFunds].[BuyBackAchievers]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[FactorFunds]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="BuyBackAchieversFactor" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="9effc13c-47f0-4e71-8022-a48470ad29f9" ChangeDateTime="10/28/2024 17:32:03">
+    <Property Name="ElementName" Value="[dbo].[FactorFunds].[BloombergPricingPower]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[FactorFunds]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="BloombergPricingPowerFactor" />
+  </Operation>
 </Operations>
