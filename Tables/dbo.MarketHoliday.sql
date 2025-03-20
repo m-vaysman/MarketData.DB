@@ -1,0 +1,5 @@
+﻿CREATE TABLE MarketHolidays (
+    id INT IDENTITY(1,1) PRIMARY KEY,
+    Date DATE NOT NULL,
+    HolidayName NVARCHAR(200) NOT NULL
+);
