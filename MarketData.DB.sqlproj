@@ -228,6 +228,17 @@
     <Build Include="Functions\dbo.GetLastMarketDate.sql" />
     <Build Include="Functions\dbo.GetEtfTargetPrices.sql" />
     <Build Include="Views\pgon.TickerVolMemOpt.sql" />
+    <Build Include="Tables\dbo.FinancialDataStaging.sql" />
+    <Build Include="Tables\dbo.FinancialData.sql" />
+    <Build Include="StoredProcedures\dbo.MergeFinancialDataToTargetTable.sql" />
+    <Build Include="Functions\dbo.StockHistoricalPE.sql" />
+    <Build Include="StoredProcedures\dbo.GetAndStoreGoldenCrossCandidates.sql" />
+    <Build Include="Tables\dbo.GoldenCrossCandidates.sql" />
+    <Build Include="Views\dbo.vw_SMA50_SlopeDecomposition.sql" />
+    <Build Include="StoredProcedures\dbo.Correlations_AgainstAll.sql" />
+    <Build Include="Views\dbo.CollapsedWeeklyPrices.sql" />
+    <Build Include="Functions\dbo.Hour_1_Gainers.sql" />
+    <Build Include="Functions\dbo.GetMinutePrice.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="MarketData.DB.refactorlog" />

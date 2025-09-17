@@ -25,3 +25,11 @@ go
 CREATE NONCLUSTERED INDEX IX_MarketData_MinutePrice_Ticker_Date 
 ON pgon.MinutePrice ([Ticker], [Date])
 INCLUDE ([Open], [Close],[High],[Low],[Transactions],[DateTime]);
+go
+CREATE NONCLUSTERED INDEX IX_MarketData_Date 
+ON pgon.MinutePrice ([Date])
+INCLUDE ([Ticker],[Open], [Close],[High],[Low],[Transactions],[DateTime]);
+GO
+CREATE NONCLUSTERED INDEX IX_MarketData_DateTime 
+ON pgon.MinutePrice ([Ticker],[DateTime])
+INCLUDE ([Date],[Open], [Close],[High],[Low],[Transactions]);

@@ -20,3 +20,24 @@
 )
 ON PS_ExchangeQuote (ticker)
 
+
+GO
+
+CREATE NONCLUSTERED INDEX IX_ExchangeQuotes_Ticker
+ON [pgon].[ExchangeQuotes] (ticker)
+INCLUDE (
+    ask_exchange,
+    ask_price,
+    ask_size,
+    bid_exchange,
+    bid_price,
+    bid_size,
+    conditions,
+    indicators,
+    date,
+    participant_timestamp,
+    sequence_number,
+    sip_timestamp,
+    tape
+
+);
