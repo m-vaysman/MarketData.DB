@@ -23,9 +23,10 @@ CREATE TABLE [pgon].[DailySnapShotPricesMemOpt]
     [Rise]                    FLOAT (53) NULL
     PRIMARY KEY NONCLUSTERED HASH (Ticker,[Date]) WITH (BUCKET_COUNT = 40000000), 
     INDEX [IX_DailySnapShotPricesMemOptNonClustered_Ticker] NONCLUSTERED  ([Ticker]),
-    INDEX [IX_DailySnapShotPricesMemOpt_TickerDate] NONCLUSTERED  ([Ticker],[Date]),
-    INDEX [IX_DailySnapShotPricesMemOpt_Date] NONCLUSTERED HASH ([Date]) WITH (BUCKET_COUNT = 7000),
-    INDEX [IX_DailySnapShotPricesMemOpt_Ticker] NONCLUSTERED HASH ([Ticker]) WITH (BUCKET_COUNT = 40000)
+    INDEX [IX_DailySnapShotPricesMemOpt_TickerDate] NONCLUSTERED  ([Ticker],[Date]) ,
+    INDEX [IX_DailySnapShotPricesMemOpt_Date] NONCLUSTERED HASH ([Date]) WITH (BUCKET_COUNT = 16384),
+    INDEX [IX_DailySnapShotPricesMemOpt_Ticker] NONCLUSTERED HASH ([Ticker]) WITH (BUCKET_COUNT = 40000),
+      INDEX [IX_DailySnapShotPricesMemOpt_Ticker_Date_Low] NONCLUSTERED ([Ticker], [Date]) INCLUDE ([Low],[Open],[High],[Close],[Volume],[Return])
    
    
 ) WITH (MEMORY_OPTIMIZED = ON)

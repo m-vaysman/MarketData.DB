@@ -33,3 +33,4 @@ GO
 CREATE NONCLUSTERED INDEX IX_MarketData_DateTime 
 ON pgon.MinutePrice ([Ticker],[DateTime])
 INCLUDE ([Date],[Open], [Close],[High],[Low],[Transactions]);
+

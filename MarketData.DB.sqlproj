@@ -239,6 +239,16 @@
     <Build Include="Views\dbo.CollapsedWeeklyPrices.sql" />
     <Build Include="Functions\dbo.Hour_1_Gainers.sql" />
     <Build Include="Functions\dbo.GetMinutePrice.sql" />
+    <Build Include="StoredProcedures\dbo.usp_GetOpenToLatestSnapshot.sql" />
+    <Build Include="Tables\dbo.VIX.sql" />
+    <Build Include="StoredProcedures\dbo.GetAdvancingStocks.sql" />
+    <Build Include="Tables\dbo.ScreenerTable.sql" />
+    <Build Include="StoredProcedures\dbo.GetSupportZones.sql" />
+    <Build Include="Tables\dbo.PairsAnalysis.sql" />
+    <Build Include="Tables\dbo.FinvizSnapshot.sql" />
+    <Build Include="Views\dbo.FinvizETFSView.sql" />
+    <Build Include="Tables\pgon.PeriodPerformanceResult.sql" />
+    <Build Include="StoredProcedures\pgon.GetPeriodPerformance.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="MarketData.DB.refactorlog" />
