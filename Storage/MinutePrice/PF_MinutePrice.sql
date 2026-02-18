@@ -7,7 +7,7 @@ ALTER DATABASE [$(DatabaseName)]
 	ADD FILE
 	(
 		NAME = [MinutePrice],
-		FILENAME = 'F:\Db\MinutePrice.ndf',
+		FILENAME = 'I:\Db\MinutePrice.ndf',
 		SIZE= 1000MB,
 		MAXSIZE=UNLIMITED,
 		FILEGROWTH=1000MB

@@ -7,7 +7,7 @@ ALTER DATABASE [$(DatabaseName)]
 	ADD FILE
 	(
 		NAME = [RealTimeTrade],
-		FILENAME = 'F:\Db\RealTimeTrade.ndf',
+		FILENAME = 'I:\Db\RealTimeTrade.ndf',
 		SIZE= 4000MB,
 		MAXSIZE=UNLIMITED,
 		FILEGROWTH=1000MB

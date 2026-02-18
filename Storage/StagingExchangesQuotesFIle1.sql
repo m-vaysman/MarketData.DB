@@ -7,7 +7,7 @@ ALTER DATABASE [$(DatabaseName)]
 	ADD FILE
 	(
 		NAME = [StagingExchangesQuotesFile1],
-		FILENAME = 'F:\Db\StagingExchangesQuotesFIle1.ndf',
+		FILENAME = 'I:\Db\StagingExchangesQuotesFIle1.ndf',
 		SIZE= 20000MB,
 		MAXSIZE=UNLIMITED,
 		FILEGROWTH=1000MB

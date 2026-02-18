@@ -179,15 +179,17 @@
     <Build Include="Storage\PS_RealTimeTrade.sql" />
     <Build Include="Storage\StagingExchangesQuotesFIle1.sql" />
     <Build Include="Storage\StagingExchangesQuotesFile2.sql" />
+    <Build Include="Storage\FG_RealTimeQuotes.sql" />
+    <Build Include="Storage\PF_RealTimeQuotes.sql" />
+    <Build Include="Storage\PF_QuoteDate.sql" />
+    <Build Include="Storage\PS_QuoteDate.sql" />
+    <Build Include="Tables\pgon.RealTimeQuotes.sql" />
     <Build Include="Storage\MinutePrice\FG_MinutePrice.sql" />
     <Build Include="Storage\MinutePrice\FG_MinutePrice2.sql" />
-    <Build Include="Storage\MinutePrice\FG_MinutePrice3.sql" />
     <Build Include="Storage\MinutePrice\PF_MinutePrice.sql" />
     <Build Include="Storage\MinutePrice\PF_MinutePrice2.sql" />
-    <Build Include="Storage\MinutePrice\PF_MinutePrice3.sql" />
     <Build Include="Storage\MinutePrice\PS_MinutePrice.sql" />
     <Build Include="Storage\MinutePrice\PARTF_MinuteTrade.sql" />
-    <Build Include="Index\dbo.MinutePrice.sql" />
     <Build Include="Functions\dbo.GetWorstReturn.sql" />
     <Build Include="Views\pgon.TickerDailyReturn.sql" />
     <Build Include="StoredProcedures\dbo.UpdateReturnsInDailySnapShotPrices.sql" />
@@ -247,8 +249,10 @@
     <Build Include="Tables\dbo.PairsAnalysis.sql" />
     <Build Include="Tables\dbo.FinvizSnapshot.sql" />
     <Build Include="Views\dbo.FinvizETFSView.sql" />
-    <Build Include="Tables\pgon.PeriodPerformanceResult.sql" />
     <Build Include="StoredProcedures\pgon.GetPeriodPerformance.sql" />
+    <Build Include="StoredProcedures\pgon.GetPeriodPerformancePivot.sql" />
+    <Build Include="StoredProcedures\pgon.GetMovingAverages.sql" />
+    <Build Include="StoredProcedures\pgon.GetBottomingStocks.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="MarketData.DB.refactorlog" />

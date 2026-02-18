@@ -26,7 +26,7 @@ CREATE TABLE [pgon].[DailySnapShotPricesMemOpt]
     INDEX [IX_DailySnapShotPricesMemOpt_TickerDate] NONCLUSTERED  ([Ticker],[Date]) ,
     INDEX [IX_DailySnapShotPricesMemOpt_Date] NONCLUSTERED HASH ([Date]) WITH (BUCKET_COUNT = 16384),
     INDEX [IX_DailySnapShotPricesMemOpt_Ticker] NONCLUSTERED HASH ([Ticker]) WITH (BUCKET_COUNT = 40000),
-      INDEX [IX_DailySnapShotPricesMemOpt_Ticker_Date_Low] NONCLUSTERED ([Ticker], [Date]) INCLUDE ([Low],[Open],[High],[Close],[Volume],[Return])
+      INDEX [IX_DailySnapShotPricesMemOpt_Ticker_Date_Low] NONCLUSTERED ([Ticker], [Date])
    
    
 ) WITH (MEMORY_OPTIMIZED = ON)

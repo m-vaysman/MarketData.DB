@@ -7,7 +7,7 @@ ALTER DATABASE [$(DatabaseName)]
 	ADD FILE
 	(
 		NAME = [SecurityCorrelationsFile],
-		FILENAME = 'H:\Db\SecurityCorrelationsFile.ndf',
+		FILENAME = 'I:\Db\SecurityCorrelationsFile.ndf',
 		SIZE= 4000MB,
 		MAXSIZE=UNLIMITED,
 		FILEGROWTH=1000MB

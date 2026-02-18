@@ -1,212 +1,94 @@
 CREATE PROCEDURE [pgon].[GetPeriodPerformance]
     @Date    DATE,
     @Ticker  NVARCHAR(50) = NULL
-
-WITH NATIVE_COMPILATION, SCHEMABINDING
 AS
-BEGIN ATOMIC WITH
-(
-    TRANSACTION ISOLATION LEVEL = SNAPSHOT,
-    LANGUAGE = N'English'
-)
+BEGIN
+    SET NOCOUNT ON;
 
-    DECLARE @Results AS pgon.PeriodPerformanceResult;
+    -- Rolling lookback targets: find the closest trading day on or before these dates
+    DECLARE @WeekAgo    DATE = DATEADD(day, -7, @Date);
+    DECLARE @MonthAgo   DATE = DATEADD(month, -1, @Date);
+    DECLARE @QuarterAgo DATE = DATEADD(month, -3, @Date);
+    DECLARE @YearAgo    DATE = DATEADD(year, -1, @Date);
 
-    -- Pre-compute period boundaries for the target date
-    DECLARE @TargetYear     INT  = YEAR(@Date);
-    DECLARE @TargetMonth    INT  = MONTH(@Date);
-    DECLARE @TargetQuarter  INT  = DATEPART(quarter, @Date);
-
-    -- Start-of-period boundaries: the first calendar day of each current period.
-    -- The "previous period end" is the last trading day BEFORE these dates.
-    DECLARE @StartOfWeek    DATE = DATEADD(day, 1 - DATEPART(weekday, DATEADD(day, @@DATEFIRST - 1, @Date)), @Date);
-    DECLARE @StartOfMonth   DATE = DATEFROMPARTS(@TargetYear, @TargetMonth, 1);
-    DECLARE @StartOfQuarter DATE = DATEFROMPARTS(@TargetYear, 1 + 3 * (@TargetQuarter - 1), 1);
-    DECLARE @StartOfYear    DATE = DATEFROMPARTS(@TargetYear, 1, 1);
-
-    -- Lookback lower bounds (generous windows to find the last trading day)
-    DECLARE @WeekLookback    DATE = DATEADD(day, -20, @StartOfWeek);
-    DECLARE @MonthLookback   DATE = DATEADD(day, -15, @StartOfMonth);
-    DECLARE @QuarterLookback DATE = DATEADD(day, -15, @StartOfQuarter);
-    DECLARE @YearLookback    DATE = DATEADD(day, -15, @StartOfYear);
-
-    -- Working variables
-    DECLARE @CurTicker       NVARCHAR(50);
-    DECLARE @CurClose        FLOAT;
-    DECLARE @PrevDate        DATE;
-    DECLARE @PrevClose       FLOAT;
-    DECLARE @Perf            FLOAT;
-    DECLARE @PrevTicker      NVARCHAR(50) = N'';
-
-    IF @Ticker IS NOT NULL
-    BEGIN
-        ---------------------------------------------------------------
-        -- SINGLE TICKER MODE
-        ---------------------------------------------------------------
-        SELECT @CurClose = d.[Close]
-        FROM pgon.DailySnapShotPricesMemOpt AS d
-        WHERE d.Ticker = @Ticker AND d.[Date] = @Date;
-
-        IF @CurClose IS NOT NULL
-        BEGIN
-            -- WEEKLY: find max date in [WeekLookback, StartOfWeek), then point-lookup close
-            SET @PrevDate = NULL;
-            SELECT @PrevDate = MAX(d.[Date])
-            FROM pgon.DailySnapShotPricesMemOpt AS d
-            WHERE d.Ticker = @Ticker AND d.[Date] >= @WeekLookback AND d.[Date] < @StartOfWeek;
-
-            SET @PrevClose = NULL;
-            IF @PrevDate IS NOT NULL
-                SELECT @PrevClose = d.[Close]
-                FROM pgon.DailySnapShotPricesMemOpt AS d
-                WHERE d.Ticker = @Ticker AND d.[Date] = @PrevDate;
-
-            SET @Perf = CASE WHEN @PrevClose IS NOT NULL AND @PrevClose <> 0
-                             THEN (@CurClose - @PrevClose) / @PrevClose ELSE 0 END;
-            INSERT INTO @Results VALUES (@Ticker, N'Weekly', @Date, @CurClose, @PrevClose, @Perf);
-
-            -- MONTHLY
-            SET @PrevDate = NULL;
-            SELECT @PrevDate = MAX(d.[Date])
-            FROM pgon.DailySnapShotPricesMemOpt AS d
-            WHERE d.Ticker = @Ticker AND d.[Date] >= @MonthLookback AND d.[Date] < @StartOfMonth;
-
-            SET @PrevClose = NULL;
-            IF @PrevDate IS NOT NULL
-                SELECT @PrevClose = d.[Close]
-                FROM pgon.DailySnapShotPricesMemOpt AS d
-                WHERE d.Ticker = @Ticker AND d.[Date] = @PrevDate;
-
-            SET @Perf = CASE WHEN @PrevClose IS NOT NULL AND @PrevClose <> 0
-                             THEN (@CurClose - @PrevClose) / @PrevClose ELSE 0 END;
-            INSERT INTO @Results VALUES (@Ticker, N'Monthly', @Date, @CurClose, @PrevClose, @Perf);
-
-            -- QUARTERLY
-            SET @PrevDate = NULL;
-            SELECT @PrevDate = MAX(d.[Date])
-            FROM pgon.DailySnapShotPricesMemOpt AS d
-            WHERE d.Ticker = @Ticker AND d.[Date] >= @QuarterLookback AND d.[Date] < @StartOfQuarter;
-
-            SET @PrevClose = NULL;
-            IF @PrevDate IS NOT NULL
-                SELECT @PrevClose = d.[Close]
-                FROM pgon.DailySnapShotPricesMemOpt AS d
-                WHERE d.Ticker = @Ticker AND d.[Date] = @PrevDate;
-
-            SET @Perf = CASE WHEN @PrevClose IS NOT NULL AND @PrevClose <> 0
-                             THEN (@CurClose - @PrevClose) / @PrevClose ELSE 0 END;
-            INSERT INTO @Results VALUES (@Ticker, N'Quarterly', @Date, @CurClose, @PrevClose, @Perf);
-
-            -- ANNUAL
-            SET @PrevDate = NULL;
-            SELECT @PrevDate = MAX(d.[Date])
-            FROM pgon.DailySnapShotPricesMemOpt AS d
-            WHERE d.Ticker = @Ticker AND d.[Date] >= @YearLookback AND d.[Date] < @StartOfYear;
-
-            SET @PrevClose = NULL;
-            IF @PrevDate IS NOT NULL
-                SELECT @PrevClose = d.[Close]
-                FROM pgon.DailySnapShotPricesMemOpt AS d
-                WHERE d.Ticker = @Ticker AND d.[Date] = @PrevDate;
-
-            SET @Perf = CASE WHEN @PrevClose IS NOT NULL AND @PrevClose <> 0
-                             THEN (@CurClose - @PrevClose) / @PrevClose ELSE 0 END;
-            INSERT INTO @Results VALUES (@Ticker, N'Annual', @Date, @CurClose, @PrevClose, @Perf);
-        END
-    END
-    ELSE
-    BEGIN
-        ---------------------------------------------------------------
-        -- ALL TICKERS MODE: iterate through tickers that traded on @Date
-        ---------------------------------------------------------------
-        SELECT @CurTicker = MIN(d.Ticker)
-        FROM pgon.DailySnapShotPricesMemOpt AS d
-        WHERE d.[Date] = @Date;
-
-        WHILE @CurTicker IS NOT NULL
-        BEGIN
-            -- Get closing price on target date (hash index point lookup)
-            SELECT @CurClose = d.[Close]
-            FROM pgon.DailySnapShotPricesMemOpt AS d
-            WHERE d.Ticker = @CurTicker AND d.[Date] = @Date;
-
-            -- WEEKLY
-            SET @PrevDate = NULL;
-            SELECT @PrevDate = MAX(d.[Date])
-            FROM pgon.DailySnapShotPricesMemOpt AS d
-            WHERE d.Ticker = @CurTicker AND d.[Date] >= @WeekLookback AND d.[Date] < @StartOfWeek;
-
-            SET @PrevClose = NULL;
-            IF @PrevDate IS NOT NULL
-                SELECT @PrevClose = d.[Close]
-                FROM pgon.DailySnapShotPricesMemOpt AS d
-                WHERE d.Ticker = @CurTicker AND d.[Date] = @PrevDate;
-
-            SET @Perf = CASE WHEN @PrevClose IS NOT NULL AND @PrevClose <> 0
-                             THEN (@CurClose - @PrevClose) / @PrevClose ELSE 0 END;
-            INSERT INTO @Results VALUES (@CurTicker, N'Weekly', @Date, @CurClose, @PrevClose, @Perf);
-
-            -- MONTHLY
-            SET @PrevDate = NULL;
-            SELECT @PrevDate = MAX(d.[Date])
-            FROM pgon.DailySnapShotPricesMemOpt AS d
-            WHERE d.Ticker = @CurTicker AND d.[Date] >= @MonthLookback AND d.[Date] < @StartOfMonth;
-
-            SET @PrevClose = NULL;
-            IF @PrevDate IS NOT NULL
-                SELECT @PrevClose = d.[Close]
-                FROM pgon.DailySnapShotPricesMemOpt AS d
-                WHERE d.Ticker = @CurTicker AND d.[Date] = @PrevDate;
-
-            SET @Perf = CASE WHEN @PrevClose IS NOT NULL AND @PrevClose <> 0
-                             THEN (@CurClose - @PrevClose) / @PrevClose ELSE 0 END;
-            INSERT INTO @Results VALUES (@CurTicker, N'Monthly', @Date, @CurClose, @PrevClose, @Perf);
-
-            -- QUARTERLY
-            SET @PrevDate = NULL;
-            SELECT @PrevDate = MAX(d.[Date])
-            FROM pgon.DailySnapShotPricesMemOpt AS d
-            WHERE d.Ticker = @CurTicker AND d.[Date] >= @QuarterLookback AND d.[Date] < @StartOfQuarter;
-
-            SET @PrevClose = NULL;
-            IF @PrevDate IS NOT NULL
-                SELECT @PrevClose = d.[Close]
-                FROM pgon.DailySnapShotPricesMemOpt AS d
-                WHERE d.Ticker = @CurTicker AND d.[Date] = @PrevDate;
-
-            SET @Perf = CASE WHEN @PrevClose IS NOT NULL AND @PrevClose <> 0
-                             THEN (@CurClose - @PrevClose) / @PrevClose ELSE 0 END;
-            INSERT INTO @Results VALUES (@CurTicker, N'Quarterly', @Date, @CurClose, @PrevClose, @Perf);
-
-            -- ANNUAL
-            SET @PrevDate = NULL;
-            SELECT @PrevDate = MAX(d.[Date])
-            FROM pgon.DailySnapShotPricesMemOpt AS d
-            WHERE d.Ticker = @CurTicker AND d.[Date] >= @YearLookback AND d.[Date] < @StartOfYear;
-
-            SET @PrevClose = NULL;
-            IF @PrevDate IS NOT NULL
-                SELECT @PrevClose = d.[Close]
-                FROM pgon.DailySnapShotPricesMemOpt AS d
-                WHERE d.Ticker = @CurTicker AND d.[Date] = @PrevDate;
-
-            SET @Perf = CASE WHEN @PrevClose IS NOT NULL AND @PrevClose <> 0
-                             THEN (@CurClose - @PrevClose) / @PrevClose ELSE 0 END;
-            INSERT INTO @Results VALUES (@CurTicker, N'Annual', @Date, @CurClose, @PrevClose, @Perf);
-
-            -- Advance to next ticker alphabetically
-            SET @PrevTicker = @CurTicker;
-            SET @CurTicker = NULL;
-
-            SELECT @CurTicker = MIN(d.Ticker)
-            FROM pgon.DailySnapShotPricesMemOpt AS d
-            WHERE d.[Date] = @Date AND d.Ticker > @PrevTicker;
-        END
-    END
-
-    SELECT Ticker, PeriodType, PeriodEndDate, PeriodEndClose, PreviousPeriodEndClose, Performance
-    FROM @Results
-    ORDER BY Ticker, PeriodType;
+    ;WITH CurrentPrices AS (
+        SELECT Ticker, [Close]
+        FROM pgon.DailySnapShotPricesMemOpt
+        WHERE [Date] = @Date
+          AND (@Ticker IS NULL OR Ticker = @Ticker)
+    ),
+    PrevWeek AS (
+        SELECT cp.Ticker, d.[Close] AS PrevClose
+        FROM CurrentPrices cp
+        CROSS APPLY (
+            SELECT TOP 1 d2.[Close]
+            FROM pgon.DailySnapShotPricesMemOpt d2
+            WHERE d2.Ticker = cp.Ticker
+              AND d2.[Date] <= @WeekAgo
+              AND d2.[Date] >= DATEADD(day, -5, @WeekAgo)
+            ORDER BY d2.[Date] DESC
+        ) d
+    ),
+    PrevMonth AS (
+        SELECT cp.Ticker, d.[Close] AS PrevClose
+        FROM CurrentPrices cp
+        CROSS APPLY (
+            SELECT TOP 1 d2.[Close]
+            FROM pgon.DailySnapShotPricesMemOpt d2
+            WHERE d2.Ticker = cp.Ticker
+              AND d2.[Date] <= @MonthAgo
+              AND d2.[Date] >= DATEADD(day, -5, @MonthAgo)
+            ORDER BY d2.[Date] DESC
+        ) d
+    ),
+    PrevQuarter AS (
+        SELECT cp.Ticker, d.[Close] AS PrevClose
+        FROM CurrentPrices cp
+        CROSS APPLY (
+            SELECT TOP 1 d2.[Close]
+            FROM pgon.DailySnapShotPricesMemOpt d2
+            WHERE d2.Ticker = cp.Ticker
+              AND d2.[Date] <= @QuarterAgo
+              AND d2.[Date] >= DATEADD(day, -5, @QuarterAgo)
+            ORDER BY d2.[Date] DESC
+        ) d
+    ),
+    PrevYear AS (
+        SELECT cp.Ticker, d.[Close] AS PrevClose
+        FROM CurrentPrices cp
+        CROSS APPLY (
+            SELECT TOP 1 d2.[Close]
+            FROM pgon.DailySnapShotPricesMemOpt d2
+            WHERE d2.Ticker = cp.Ticker
+              AND d2.[Date] <= @YearAgo
+              AND d2.[Date] >= DATEADD(day, -5, @YearAgo)
+            ORDER BY d2.[Date] DESC
+        ) d
+    )
+    SELECT
+        r.Ticker,
+        r.PeriodType,
+        @Date AS PeriodEndDate,
+        r.PeriodEndClose,
+        r.PreviousPeriodEndClose,
+        CASE WHEN r.PreviousPeriodEndClose IS NOT NULL AND r.PreviousPeriodEndClose <> 0
+             THEN (r.PeriodEndClose - r.PreviousPeriodEndClose) / r.PreviousPeriodEndClose
+             ELSE 0
+        END AS Performance
+    FROM (
+        SELECT cp.Ticker, N'Weekly' AS PeriodType, cp.[Close] AS PeriodEndClose, pw.PrevClose AS PreviousPeriodEndClose
+        FROM CurrentPrices cp LEFT JOIN PrevWeek pw ON cp.Ticker = pw.Ticker
+        UNION ALL
+        SELECT cp.Ticker, N'Monthly', cp.[Close], pm.PrevClose
+        FROM CurrentPrices cp LEFT JOIN PrevMonth pm ON cp.Ticker = pm.Ticker
+        UNION ALL
+        SELECT cp.Ticker, N'Quarterly', cp.[Close], pq.PrevClose
+        FROM CurrentPrices cp LEFT JOIN PrevQuarter pq ON cp.Ticker = pq.Ticker
+        UNION ALL
+        SELECT cp.Ticker, N'Annual', cp.[Close], py.PrevClose
+        FROM CurrentPrices cp LEFT JOIN PrevYear py ON cp.Ticker = py.Ticker
+    ) r
+    ORDER BY r.Ticker, r.PeriodType;
 
 END
 GO

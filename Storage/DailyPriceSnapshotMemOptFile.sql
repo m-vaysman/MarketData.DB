@@ -7,6 +7,6 @@ ALTER DATABASE [$(DatabaseName)]
 	ADD FILE
 	(
 		NAME = [DailyPriceSnapshotMemOptFile],
-		FILENAME = 'F:\Db\DailyPriceSnapshotMemOptFile.ndf'
+		FILENAME = 'I:\Db\DailyPriceSnapshotMemOptFile.ndf'
 	)
 	

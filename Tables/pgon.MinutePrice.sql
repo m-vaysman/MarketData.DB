@@ -13,24 +13,7 @@
     [Transactions] int not null,
     [CreatedOn] DATETIME not null default(getdate()), 
 
-    CONSTRAINT [PK_MinutePrice] PRIMARY KEY (Id,[Ticker],[Window_Start])
-    
+    CONSTRAINT [PK_MinutePrice] PRIMARY KEY CLUSTERED ([Date], [Ticker], [DateTime])
+
 )on PS_MinutePrice(Ticker)
-
-
-go
-
-create nonclustered index IX_MinutePrice_Ticker ON pgon.MinutePrice  ([Ticker]) include ([Date],Volume,[Open],[Close],[High],[Low],[Window_Start],[Transactions])
-go
-CREATE NONCLUSTERED INDEX IX_MarketData_MinutePrice_Ticker_Date 
-ON pgon.MinutePrice ([Ticker], [Date])
-INCLUDE ([Open], [Close],[High],[Low],[Transactions],[DateTime]);
-go
-CREATE NONCLUSTERED INDEX IX_MarketData_Date 
-ON pgon.MinutePrice ([Date])
-INCLUDE ([Ticker],[Open], [Close],[High],[Low],[Transactions],[DateTime]);
-GO
-CREATE NONCLUSTERED INDEX IX_MarketData_DateTime 
-ON pgon.MinutePrice ([Ticker],[DateTime])
-INCLUDE ([Date],[Open], [Close],[High],[Low],[Transactions]);
 
