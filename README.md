@@ -173,18 +173,13 @@ CREATE PARTITION SCHEME [PS_RealTimeTrade]
 
 ```mermaid
 flowchart LR
-  subgraph PS["PS_RealTimeTrade — partitioned by trade date"]
-    P1["Partition 1"]
-    P2["Partition 2"]
-    P3["Partition 3"]
-  end
-  P1 --> FG1["FG_RealTimeTrade"]
-  P2 --> FG2["FG_RealTimeTrade2"]
-  P3 --> FG3["FG_RealTimeTrade3"]
-  FG1 --> VI["Volume I:"]
-  FG3 --> VI
-  FG2 --> VG["Volume G:"]
+  P1["Partition 1"] --> FG1["FG_RealTimeTrade"] --> VI["Volume I"]
+  P2["Partition 2"] --> FG2["FG_RealTimeTrade2"] --> VG["Volume G"]
+  P3["Partition 3"] --> FG3["FG_RealTimeTrade3"] --> VI
 ```
+
+Partitions 1 and 3 converge on `I:` while partition 2 sits on `G:`, so no two
+adjacent partitions share a volume.
 
 Adjacent date partitions are exactly what a range scan or a concurrent ingest
 touches at the same time, so placing neighbours on separate volumes spreads that
