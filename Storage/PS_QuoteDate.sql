@@ -1,3 +1,3 @@
-CREATE PARTITION SCHEME [PS_QuoteDate]
-	AS PARTITION [PF_QuoteDate]
-	ALL TO ([FG_RealTimeQuotes])
+CREATE PARTITION SCHEME [ps_QuoteDate]
+AS PARTITION [pf_QuoteDate]
+ALL TO ([PRIMARY]);

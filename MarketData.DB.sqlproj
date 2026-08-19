@@ -158,24 +158,16 @@
     <Build Include="Tables\pgon.MinutePrice.sql" />
     <Build Include="Storage\DailyPriceSnapshotFileGroup.sql" />
     <Build Include="Storage\DailyPriceSnapshotMemOptFile.sql" />
-    <Build Include="Storage\ExchangeQuoteFile1.sql" />
-    <Build Include="Storage\ExchangeQuoteFile2.sql" />
-    <Build Include="Storage\ExchangeQuoteFileGroup1.sql" />
-    <Build Include="Storage\ExchangeQuoteFile3.sql" />
-    <Build Include="Storage\ExchangeQuoteFileGroup2.sql" />
-    <Build Include="Storage\ExchangeQuoteFileGroup3.sql" />
     <Build Include="Storage\ExchangesQuotesFileGroup.sql" />
     <Build Include="Storage\ExchangesQuotesFileGroup2.sql" />
     <Build Include="Storage\FG_RealTimeTrade.sql" />
     <Build Include="Storage\FG_RealTimeTrade2.sql" />
     <Build Include="Storage\FG_RealTimeTrade3.sql" />
-    <Build Include="Storage\PF_ExchangeQuote.sql" />
     <Build Include="Storage\PF_RealTimeTrade.sql" />
     <Build Include="Storage\PF_RealTimeTrade2.sql" />
     <Build Include="Storage\PF_RealTimeTrade3.sql" />
     <Build Include="Storage\PF_StagingExchangesQuotes.sql" />
     <Build Include="Storage\PS__StagingExchangesQuotes.sql" />
-    <Build Include="Storage\PS_ExchangeQuote.sql" />
     <Build Include="Storage\PS_RealTimeTrade.sql" />
     <Build Include="Storage\StagingExchangesQuotesFIle1.sql" />
     <Build Include="Storage\StagingExchangesQuotesFile2.sql" />
@@ -253,6 +245,8 @@
     <Build Include="StoredProcedures\pgon.GetPeriodPerformancePivot.sql" />
     <Build Include="StoredProcedures\pgon.GetMovingAverages.sql" />
     <Build Include="StoredProcedures\pgon.GetBottomingStocks.sql" />
+    <Build Include="Views\pgon.vw_QuoteSummary.sql" />
+    <Build Include="Tables\pgon.QuotesLive.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="MarketData.DB.refactorlog" />

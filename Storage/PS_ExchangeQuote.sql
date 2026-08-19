@@ -1,3 +1,3 @@
-﻿CREATE PARTITION SCHEME [PS_ExchangeQuote]
-	AS PARTITION [PF_ExchangeQuote]
-	TO ([ExchangeQuoteFileGroup1], [ExchangeQuoteFileGroup2], [ExchangeQuoteFileGroup3])
+CREATE PARTITION SCHEME [ps_QuoteDate]
+AS PARTITION [pf_QuoteDate]
+ALL TO ([PRIMARY]);

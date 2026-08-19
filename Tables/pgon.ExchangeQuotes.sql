@@ -1,43 +1,28 @@
-﻿CREATE TABLE [pgon].[ExchangeQuotes]
+CREATE TABLE [pgon].[ExchangeQuotes]
 (
-    
-	ticker nvarchar(10) not null,
-	ask_exchange tinyint not null,
-	ask_price float not null,
-	ask_size int not null,
-	bid_exchange tinyint not null,
-	bid_price float not null,
-	bid_size int not null,
-	conditions nvarchar(100),
-	indicators nvarchar(100),
-	date [date] not null,
-	participant_timestamp bigint not null,
-	sequence_number int not null,
-	sip_timestamp bigint not null,
-	tape tinyint not null,
-	CreateDate DateTime default(getdate()) not null
-
+    date                    DATE            NOT NULL,   -- partition column first
+    ticker                  NVARCHAR(10)    NOT NULL,
+    sip_timestamp           BIGINT          NOT NULL,
+    participant_timestamp   BIGINT          NOT NULL,
+    sequence_number         BIGINT          NOT NULL,   -- INT may overflow at this volume
+    ask_exchange            TINYINT         NOT NULL,
+    ask_price               DECIMAL(18,6)   NOT NULL,   -- not float
+    ask_size                INT             NOT NULL,
+    bid_exchange            TINYINT         NOT NULL,
+    bid_price               DECIMAL(18,6)   NOT NULL,   -- not float
+    bid_size                INT             NOT NULL,
+    conditions              NVARCHAR(100)   NULL,
+    indicators              NVARCHAR(100)   NULL,
+    tape                    TINYINT         NOT NULL
+    -- dropped CreateDate: it's always ~load time, rarely queried,
+    -- and costs 8 bytes * billions of rows. Add back if you need it.
 )
-ON PS_ExchangeQuote (ticker)
-
-
+ON ps_QuoteDate([date]);
 GO
 
-CREATE NONCLUSTERED INDEX IX_ExchangeQuotes_Ticker
-ON [pgon].[ExchangeQuotes] (ticker)
-INCLUDE (
-    ask_exchange,
-    ask_price,
-    ask_size,
-    bid_exchange,
-    bid_price,
-    bid_size,
-    conditions,
-    indicators,
-    date,
-    participant_timestamp,
-    sequence_number,
-    sip_timestamp,
-    tape
-
-);
+-- This IS your lookup index. No separate NCI needed.
+CREATE CLUSTERED INDEX CIX_ExchangeQuotes
+ON [pgon].[ExchangeQuotes] ([date], ticker, sip_timestamp)
+WITH (DATA_COMPRESSION = PAGE)
+ON ps_QuoteDate([date]);
+GO

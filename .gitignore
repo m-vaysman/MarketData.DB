@@ -1,0 +1,78 @@
+# ---------------------------------------------------------------------------
+# .gitignore for a SQL Server Data Tools (SSDT) database project
+# ---------------------------------------------------------------------------
+
+# --- Build output ----------------------------------------------------------
+# The compiled .dacpac, the generated deploy script and CLR build artifacts all
+# land here. All are reproducible from source, so none of it is committed.
+bin/
+obj/
+[Dd]ebug/
+[Rr]elease/
+*.dacpac
+*.dll
+*.pdb
+*.exe
+
+# --- Visual Studio local state ---------------------------------------------
+.vs/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+*.rsuser
+*.userprefs
+
+# --- SSDT-specific local caches --------------------------------------------
+# .dbmdl  : Visual Studio's cached database model (~10 MB, rebuilt on open)
+# .jfm    : SSDT journal file, local scratch state
+# .sqlproj.user : per-developer debug/deploy settings
+*.dbmdl
+*.jfm
+*.sqlproj.user
+
+# NOTE: MarketData.DB.refactorlog is intentionally NOT ignored. It records
+# rename operations so that deployments apply them as renames instead of
+# drop-and-recreate. Losing it can mean losing data on the next publish.
+
+# --- Local deployment profiles ---------------------------------------------
+# The checked-in MarketData.DB.publish.xml is the shared profile. Create
+# additional *.local.publish.xml files for machine-specific connections; they
+# stay out of source control.
+*.local.publish.xml
+*.publish.local.xml
+
+# --- SQL / tooling scratch -------------------------------------------------
+*.dtbcache
+*.sqlsuo
+*.scmp
+*.bak
+*.trn
+*.mdf
+*.ldf
+*.ndf
+*.log
+UpgradeLog*.htm
+UpgradeLog*.XML
+
+# --- NuGet / MSBuild -------------------------------------------------------
+*.nupkg
+*.snupkg
+project.lock.json
+project.assets.json
+msbuild.log
+msbuild.err
+msbuild.wrn
+
+# --- OS / editor -----------------------------------------------------------
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+.DS_Store
+*.swp
+*~
+
+# --- Local agent/tooling settings ------------------------------------------
+.claude/settings.local.json
+*.local.json

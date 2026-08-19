@@ -1,0 +1,27 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.13.35825.156
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "MarketData.DB", "MarketData.DB.sqlproj", "{C52E321E-89E3-4192-B774-3BB5977090A8}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C52E321E-89E3-4192-B774-3BB5977090A8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C52E321E-89E3-4192-B774-3BB5977090A8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C52E321E-89E3-4192-B774-3BB5977090A8}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{C52E321E-89E3-4192-B774-3BB5977090A8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C52E321E-89E3-4192-B774-3BB5977090A8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C52E321E-89E3-4192-B774-3BB5977090A8}.Release|Any CPU.Deploy.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {7A1F4C6E-2D9B-4E85-9A31-C0B4E8F2D71A}
+	EndGlobalSection
+EndGlobal

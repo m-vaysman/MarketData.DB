@@ -1,16 +1,20 @@
-﻿CREATE PROCEDURE pgon.MoveExchangesQuotes
+CREATE PROCEDURE pgon.MoveExchangesQuotes
 AS
 BEGIN
     -- Set XACT_ABORT ON to ensure that the transaction is rolled back in case of an error
     SET XACT_ABORT ON;
-    
+
     -- Begin a transaction
     BEGIN TRANSACTION;
 
     -- Insert data from staging to pgon.ExchangeQuotes, with necessary transformations
-    INSERT INTO [pgon].[ExchangeQuotes] 
+    INSERT INTO [pgon].[ExchangeQuotes]
     (
+        date,
         ticker,
+        sip_timestamp,
+        participant_timestamp,
+        sequence_number,
         ask_exchange,
         ask_price,
         ask_size,
@@ -19,31 +23,25 @@ BEGIN
         bid_size,
         conditions,
         indicators,
-        date,
-        participant_timestamp,
-        sequence_number,
-        sip_timestamp,
-        tape,
-        CreateDate
+        tape
     )
     SELECT
-        CAST(ticker AS NVARCHAR(10)),    -- Convert ticker from varchar(50) to nvarchar(10)
+        dbo.MillisecondsToDate(participant_timestamp/1000000),  -- derive date from participant_timestamp
+        CAST(ticker AS NVARCHAR(10)),
+        sip_timestamp,
+        participant_timestamp,
+        CAST(sequence_number AS BIGINT),                        -- INT may overflow at this volume
         ask_exchange,
-        ask_price,
+        CAST(ask_price AS DECIMAL(18,6)),                       -- not float
         ask_size,
         bid_exchange,
-        bid_price,
+        CAST(bid_price AS DECIMAL(18,6)),                       -- not float
         bid_size,
-        CAST(conditions AS NVARCHAR(100)),  -- Convert conditions to nvarchar(100)
-        CAST(indicators AS NVARCHAR(100)),  -- Convert indicators to nvarchar(100)
-         dbo.MillisecondsToDate(participant_timestamp/1000000),            -- Set the current date for the 'date' column
-        participant_timestamp,
-        sequence_number,
-        sip_timestamp,
-        tape,
-        GETDATE()                           -- Insert the current timestamp into CreateDate
+        CAST(conditions AS NVARCHAR(100)),
+        CAST(indicators AS NVARCHAR(100)),
+        tape
     FROM [staging].[ExchangesQuotes]
-    WHERE ticker IS NOT NULL  -- Ensure that NULL values in 'ticker' don't violate the NOT NULL constraint
+    WHERE ticker IS NOT NULL
       AND ask_exchange IS NOT NULL
       AND ask_price IS NOT NULL
       AND ask_size IS NOT NULL
