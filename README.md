@@ -50,6 +50,42 @@ a decent short lesson in what the compiler actually knows:
 They are listed openly because the point of the exercise is that they are
 *visible and countable at all*. See [Known issues](#known-issues).
 
+### A note on the commit history
+
+This history starts in March 2023 and most of the messages are poor — `wip`,
+`work2`, `more changes`. It was solo work on a database I run for myself, and the
+messages were checkpoints for me rather than communication to anyone else. I have
+not rewritten them. Inventing better ones after the fact would make the log
+tidier and less true.
+
+They also carry less weight here than they would in an application repo, for a
+structural reason. In an SSDT project one file is one database object, and the
+filename is that object's fully-qualified name — so the file list *is* the change
+description:
+
+```console
+$ git show --name-only --format="" 444154c   # subject: "more changes"
+Functions/dbo.GetEtfTargetPrices.sql
+Functions/dbo.GetLastMarketDate.sql
+Functions/dbo.GetTickerWinningStreak.sql
+Storage/DailyPriceSnapshotFileGroup.sql
+StoredProcedures/dbo.LoadVolumeAnalysis.sql
+StoredProcedures/dbo.MoveInvescoEtfHoldingsToHistory.sql
+StoredProcedures/dbo.MoveTickerReferenceToArchive.sql
+Tables/Etfs/dbo.InvescoEtfHoldings.sql
+Tables/Etfs/dbo.InvescoEtfHoldingsHistory.sql
+...
+30 files changed, 494 insertions(+)
+```
+
+The subject says nothing. The diff says ETF holdings tables with history-archival
+procedures, a market-calendar function and a winning-streak function were added.
+Use `git log --stat` here, not the subject lines.
+
+The history was also extracted from a larger private repository where this
+database sat alongside the loaders that feed it, so some messages describe work
+that touched code outside this project.
+
 ---
 
 ## What is in here
